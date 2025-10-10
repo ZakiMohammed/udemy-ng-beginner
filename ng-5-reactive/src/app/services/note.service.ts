@@ -1,26 +1,39 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Note } from '../models/note.model';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { NoteApiService } from './note-api.service';
+import { LoaderService } from './loader.service';
+import { tap, finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NoteService {
-  notes: Note[] = [];
-  apiUrl = environment.apiUrl + 'notes';
+  noteApiService = inject(NoteApiService);
+  loaderService = inject(LoaderService);
 
-  constructor(private http: HttpClient) {}
+  notes = signal<Note[]>([]);
 
   getNotes() {
-    return this.http.get<Note[]>(this.apiUrl);
+    this.loaderService.show();
+    return this.noteApiService.getNotes().pipe(
+      tap((notes) => this.notes.set(notes)),
+      finalize(() => this.loaderService.hide())
+    );
   }
 
   addNote(note: Note) {
-    return this.http.post(this.apiUrl, note);
+    this.loaderService.show();
+    return this.noteApiService.addNote(note).pipe(
+      tap((newNote) => this.notes.set([...this.notes(), newNote])),
+      finalize(() => this.loaderService.hide())
+    );
   }
 
   deleteNoteById(id: string) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    this.loaderService.show();
+    return this.noteApiService.deleteNoteById(id).pipe(
+      tap(() => this.notes.set(this.notes().filter((n) => n.id !== id))),
+      finalize(() => this.loaderService.hide())
+    );
   }
 }
