@@ -120,13 +120,18 @@ const employees = [
   }
 ];
 
+let result;
+
 // get employee with id 1003
-let result = employees.find(i => i.id === 1003);
+result = employees.find(i => i.id === 1003);
+console.log('find:', result);
 
-console.log('find', result);
+// get salesman employees
+result = employees.filter(i => i.job === 'Salesman');
+console.log('filter:', result);
 
-// get index of an employee having id 1008
-result = employees.findIndex(i => i.id === 1008);
-console.log('findIndex', result);
+// get only name, job and annual salary of all employees
+result = employees.map(i => ({ name: i.name, job: i.job, annual: i.salary * 12 }));
+console.log('map:', result);
 
-// refer https://github.com/ZakiMohammed/javascript-array-methods/blob/master/scripts.js
+// refer https://codeomelet.com/posts/javascript-array-methods-for-living
