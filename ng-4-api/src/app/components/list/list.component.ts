@@ -4,10 +4,11 @@ import { Note } from '../../models/note.model';
 import { NoteService } from '../../services/note.service';
 import { ReversePipe } from '../../pipes/reverse.pipe';
 import { LoaderService } from '../../services/loader.service';
+import { EmptyComponent } from '../empty/empty.component';
 
 @Component({
   selector: 'app-list',
-  imports: [ItemComponent, ReversePipe],
+  imports: [ItemComponent, ReversePipe, EmptyComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })

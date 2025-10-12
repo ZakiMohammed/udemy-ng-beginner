@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { NoteService } from '../../services/note.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-empty',
@@ -8,9 +7,4 @@ import { NoteService } from '../../services/note.service';
   styleUrl: './empty.component.scss',
 })
 export class EmptyComponent {
-  noteService = inject(NoteService);
-
-  get notes() {
-    return this.noteService.notes;
-  }
 }

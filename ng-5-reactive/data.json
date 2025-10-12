@@ -1,16 +1,3 @@
 {
-  "notes": [
-    {
-      "id": "44b0102d-bd91-4d12-b218-141ec217a6ac",
-      "content": "Note 1"
-    },
-    {
-      "id": "bc878fb5-3592-4bd5-b8ee-de9e279e5262",
-      "content": "Note 2"
-    },
-    {
-      "id": "195da9d4-d36b-494d-ae0e-aac9f4617f84",
-      "content": "Note 3"
-    }
-  ]
+  "notes": []
 }

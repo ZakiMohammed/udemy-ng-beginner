@@ -1,3 +1,5 @@
 @for (note of notes() | reverse; track note.id) {
 <app-item [note]="note" (onRemove)="onRemove($event)"></app-item>
+} @empty {
+<app-empty></app-empty>
 }
