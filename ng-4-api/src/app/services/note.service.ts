@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Note } from '../models/note.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -7,10 +7,9 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class NoteService {
-  notes: Note[] = [];
+  http = inject(HttpClient);
   apiUrl = environment.apiUrl + 'notes';
-
-  constructor(private http: HttpClient) {}
+  notes: Note[] = [];
 
   getNotes() {
     return this.http.get<Note[]>(this.apiUrl);

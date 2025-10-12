@@ -6,6 +6,4 @@ import { notes as notesData } from '../data';
 })
 export class NoteService {
   notes = notesData;
-
-  constructor() { }
 }
