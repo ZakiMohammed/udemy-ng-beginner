@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Note } from '../models/note.model';
-import { NoteApiService } from './note-api.service';
+import { NoteApiService } from '../http/note-api.service';
 import { LoaderService } from './loader.service';
 import { tap, finalize, of, catchError } from 'rxjs';
 
