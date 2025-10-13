@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ItemComponent } from '../item/item.component';
 import { Note } from '../../models/note.model';
 import { NoteService } from '../../services/note.service';
 import { ReversePipe } from '../../pipes/reverse.pipe';
 import { EmptyComponent } from '../empty/empty.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-list',
@@ -12,6 +13,7 @@ import { EmptyComponent } from '../empty/empty.component';
   styleUrl: './list.component.scss',
 })
 export class ListComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   noteService = inject(NoteService);
 
   get notes() {
@@ -19,10 +21,10 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.noteService.getNotes().subscribe();
+    this.noteService.getNotes().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   onRemove(note: Note) {
-    this.noteService.deleteNoteById(note.id).subscribe();
+    this.noteService.deleteNoteById(note.id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 }

@@ -1,10 +1,11 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { NoteService } from '../../services/note.service';
 import { Note } from '../../models/note.model';
 import { v4 as uuid } from 'uuid';
 import { FormsModule } from '@angular/forms';
 import { LoaderService } from '../../services/loader.service';
-import { takeUntil, finalize, Subject } from 'rxjs';
+import { finalize } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -12,17 +13,11 @@ import { takeUntil, finalize, Subject } from 'rxjs';
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
-export class FormComponent implements OnDestroy {
+export class FormComponent {
+  private readonly destroyRef = inject(DestroyRef);
   noteService = inject(NoteService);
   loaderService = inject(LoaderService);
   content: string = '';
-
-  private destroy$ = new Subject<void>();
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   onAdd(event: Event) {
     event.preventDefault();
@@ -40,7 +35,7 @@ export class FormComponent implements OnDestroy {
     this.noteService
       .addNote(newNote)
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => (this.content = ''))
       )
       .subscribe();
