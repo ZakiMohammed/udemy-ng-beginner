@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Note } from '../../models/note.model';
 
 @Component({
@@ -8,10 +8,10 @@ import { Note } from '../../models/note.model';
   styleUrl: './item.component.scss',
 })
 export class ItemComponent {
-  @Input({ required: true }) note!: Note;
-  @Output() onRemove = new EventEmitter<Note>();
-
+  readonly note = input.required<Note>();
+  readonly onRemove = output<Note>();
+  
   remove() {
-    this.onRemove.emit(this.note);
+    this.onRemove.emit(this.note());
   }
 }
