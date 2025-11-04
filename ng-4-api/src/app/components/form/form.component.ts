@@ -4,6 +4,7 @@ import { Note } from '../../models/note.model';
 import { v4 as uuid } from 'uuid';
 import { FormsModule } from '@angular/forms';
 import { LoaderService } from '../../services/loader.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -31,14 +32,17 @@ export class FormComponent {
       };
 
       this.loaderService.show();
-      this.noteService.addNote(newNote).subscribe({
-        next: () => (this.noteService.notes = [...this.noteService.notes, newNote]),
-        error: (error) => alert(`Error Occured: ${error.message}`),
-        complete: () => {
-          this.loaderService.hide();
-          this.content = '';
-        },
-      });
+      this.noteService
+        .addNote(newNote)
+        .pipe(finalize(() => this.loaderService.hide()))
+        .subscribe({
+          next: () => (this.noteService.notes = [...this.noteService.notes, newNote]),
+          error: (error) => alert(`Error Occured: ${error.message}`),
+          complete: () => {
+            this.loaderService.hide();
+            this.content = '';
+          },
+        });
     } catch (error: any) {
       alert(`Error Occurred: ${error.message}`);
     } finally {
