@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
       .pipe(finalize(() => this.loaderService.hide()))
       .subscribe({
         next: (notes) => (this.notes = notes),
-        error: (error) => alert(`Error Occured: ${error.message}`),
+        error: (error) => alert(`Error Occurred: ${error.message}`),
       });
   }
 
@@ -43,7 +43,7 @@ export class ListComponent implements OnInit {
       .pipe(finalize(() => this.loaderService.hide()))
       .subscribe({
         next: () => (this.notes = this.notes.filter((n) => n.id !== note.id)),
-        error: (error) => alert(`Error Occured: ${error.message}`),
+        error: (error) => alert(`Error Occurred: ${error.message}`),
       });
   }
 }

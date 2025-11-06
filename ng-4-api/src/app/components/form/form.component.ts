@@ -17,36 +17,39 @@ export class FormComponent {
   loaderService = inject(LoaderService);
   content: string = '';
 
+  get notes() {
+    return this.noteService.notes;
+  }
+
+  set notes(value: Note[]) {
+    this.noteService.notes = value;
+  }
+
   onAdd(event: Event) {
-    try {
-      event.preventDefault();
+    event.preventDefault();
 
-      if (!this.content) {
-        alert('Please fill the form');
-        return;
-      }
-
-      const newNote: Note = {
-        id: uuid(),
-        content: this.content,
-      };
-
-      this.loaderService.show();
-      this.noteService
-        .addNote(newNote)
-        .pipe(finalize(() => this.loaderService.hide()))
-        .subscribe({
-          next: () => (this.noteService.notes = [...this.noteService.notes, newNote]),
-          error: (error) => alert(`Error Occured: ${error.message}`),
-          complete: () => {
-            this.loaderService.hide();
-            this.content = '';
-          },
-        });
-    } catch (error: any) {
-      alert(`Error Occurred: ${error.message}`);
-    } finally {
-      this.content = '';
+    if (!this.content) {
+      alert('Please fill the form');
+      return;
     }
+
+    const newNote: Note = {
+      id: uuid(),
+      content: this.content,
+    };
+
+    this.loaderService.show();
+    this.noteService
+      .addNote(newNote)
+      .pipe(
+        finalize(() => {
+          this.loaderService.hide();
+          this.content = '';
+        })
+      )
+      .subscribe({
+        next: (responseNote) => (this.notes = [...this.notes, responseNote]),
+        error: (error) => alert(`Error Occurred: ${error.message}`),
+      });
   }
 }

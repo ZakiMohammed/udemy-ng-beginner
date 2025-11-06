@@ -16,7 +16,7 @@ export class NoteService {
   }
 
   addNote(note: Note) {
-    return this.http.post(this.apiUrl, note);
+    return this.http.post<Note>(this.apiUrl, note);
   }
 
   deleteNoteById(id: string) {
