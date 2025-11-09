@@ -1,0 +1,42 @@
+<div class="position-absolute top-0 p-3" style="right: 0">
+  <button
+    type="button"
+    class="btn btn-light"
+    title="History"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#notesHistory"
+    aria-controls="notesHistory"
+  >
+    <i class="bi bi-clock-history text-success"></i>
+  </button>
+</div>
+
+<div
+  class="offcanvas offcanvas-end bg-body-tertiary"
+  tabindex="-1"
+  id="notesHistory"
+  aria-labelledby="notesHistoryLabel"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="notesHistoryLabel">
+      <i class="bi bi-clock-history text-success"></i> Notes History
+    </h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="mb-3">
+      <button class="btn btn-link p-0" (click)="clearAll()">Clear All History</button>
+    </div>
+    <ul class="list-group">
+      @for (action of noteActions; track $index) {
+      <li class="list-group-item">
+        <small>{{ getActionText(action) }}</small>
+      </li>
+      } @empty {
+      <small class="text-muted"><i class="bi bi-egg"></i> Nothing to show in the history </small>
+      }
+    </ul>
+  </div>
+</div>

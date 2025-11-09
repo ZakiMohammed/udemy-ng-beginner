@@ -25,6 +25,6 @@ export class ListComponent implements OnInit {
   }
 
   onRemove(note: Note) {
-    this.noteService.deleteNoteById(note.id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.noteService.deleteNote(note).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 }
