@@ -32,10 +32,13 @@
     <ul class="list-group">
       @for (action of noteActions; track $index) {
       <li class="list-group-item">
-        <small>{{ getActionText(action) }}</small>
+        <small>
+          <span class="badge me-1" [ngClass]="getTypeClass(action)">{{ action.type | uppercase }}</span>
+          {{ action.payload?.content || 'No Content' }}
+        </small>
       </li>
       } @empty {
-      <small class="text-muted"><i class="bi bi-egg"></i> Nothing to show in the history </small>
+      <small class="text-muted"> <i class="bi bi-egg"></i> Nothing to show in the history </small>
       }
     </ul>
   </div>
